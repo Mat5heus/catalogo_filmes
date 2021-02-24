@@ -18,5 +18,8 @@ use Illuminate\Support\Facades\Route;
 //     return view('welcome');
 // });
 
-
-Route::resource('/{id?}', moviesController::class);
+Route::resource('/', moviesController::class);
+Route::any('/search', [moviesController::class, 'search'])->name('catalogo.search');
+Route::resource('/catalogo', moviesController::class)->only(
+    'show'
+);
