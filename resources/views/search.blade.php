@@ -17,7 +17,7 @@
                     data-bs-toggle="popover" 
                     title="{{ $filme['title'] }}" 
                     data-bs-content="{{ mb_strimwidth($filme['overview'],0,500,'...')  }} 
-                        Lançamento: {{ implode("-",array_reverse(explode("-",$filme['release_date']))) }}"
+                        Lançamento: {{ implode("-",array_reverse(explode("-",$filme['release_date'] ?? ''))) }}"
                         {{-- Genero: {{ $filme['genre_ids'] }}" --}}
                     >
                 </a>
@@ -26,4 +26,5 @@
         
     </div>
     @include('components.pagination')
+    @include('_partials.vueContainer')
 @endsection
