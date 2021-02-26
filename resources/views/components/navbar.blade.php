@@ -10,7 +10,7 @@
             <a class="nav-link active" aria-current="page" href="{{ route('index') }}">Home</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">Link</a>
+            <a class="nav-link" href="{{ route('favoritos') }}">Favoritos</a>
           </li>
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -22,16 +22,17 @@
               <li><a class="dropdown-item" href="#">Terror</a></li>
               <li><hr class="dropdown-divider"></li>
               <li><a class="dropdown-item" href="#">Something else here</a></li>
-            </ul>
+            </ul> 
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#" tabindex="-1" aria-disabled="true">Favoritos</a>
+            <a class="nav-link" href="#" id="AddFavoritos" @click="exec" v-html="favoritosMessage" tabindex="-1" aria-disabled="true"></a>
           </li>
         </ul>
-        <form class="d-flex" method="GET" action="{{ route('catalogo.search') }}">
+        <form class="d-flex" method="GET" action="{{ route('search') }}">
           <input class="form-control me-2" value="{{ $query ?? ''}}" name="search" type="search" placeholder="Search" aria-label="Search">
           <button class="btn btn-success" type="submit">Search</button>
         </form>
       </div>
     </div>
   </nav>
+  
