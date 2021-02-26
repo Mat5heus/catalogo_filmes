@@ -15,18 +15,6 @@
     @yield('content')
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.min.js" integrity="sha384-nsg8ua9HAw1y0W1btsyWgBklPnCUAFLuTMS2G72MMONqmOymq585AcH49TLBQObG" crossorigin="anonymous"></script>
     <script>
-        let containerFilmes = new Vue({
-            el: '#containerFilmes',
-            data: {
-                containerStyle: {
-                    textAlign: 'center',
-                    marginTop: '20px',
-                    marginLeft: '7%',
-                    maginRight: '15%',
-                    paddingRight: '0'
-                }
-            }
-        })
         var popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'))
         var popoverList = popoverTriggerList.map(function (popoverTriggerEl) {
             return new bootstrap.Popover(popoverTriggerEl)
