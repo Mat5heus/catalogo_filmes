@@ -12,7 +12,7 @@ class moviesController extends Controller
 
     function __construct()
     {
-        $this->apiKey = 'c3135c7dfc71986d9e636528b5e9743f';
+        $this->apiKey = env('API_KEY', false);
         $this->apiRef = 'https://api.themoviedb.org/3';
     }
     /**
@@ -22,28 +22,25 @@ class moviesController extends Controller
      */
     public function index()
     {   
-        // $lista = $this->requestPage();
-        // $genres = $this->requestGenres();
-        // foreach($lista as $page) {
-        //     foreach($page as $movie) {
-        //         $genres_name = array();
-        //         foreach($movie['genre_ids'] as $genres_id) {
-        //             foreach($genres['genres'] as $id_list) {
-        //                 if($id_list['id'] == $genres_id) {
-        //                     array_push($genres_name,$id_list['name']);
-        //                     break;
-        //                 }
-        //             } 
-        //         }
-        //         array_merge($movie['genre_ids'], $genres_name);
-        //     }
-        // }
-        // dd($genres_name);
+        $lista = $this->arraySort($this->requestPage());
+
+        #Salva os dados para consulta posterior
+        session(['pages' => $lista]);
+
         return view('index', [
-             'lista' => $this->requestPage()
+             'lista' => $lista
         ]);
     }
-    
+
+    Protected function arraySort($lista) {
+        usort($lista, function ($element1, $element2) { 
+            $datetime1 = strtotime($element1['release_date']); 
+            $datetime2 = strtotime($element2['release_date']); 
+            return $datetime1 - $datetime2; 
+        });
+        return $lista;
+    }  
+
     protected function requestGenres() {
         $response = Http::get("{$this->apiRef}/genre/movie/list?api_key={$this->apiKey}&language=pt-BR");
         return $response->json();
@@ -55,12 +52,14 @@ class moviesController extends Controller
         for($page = 1; $page <= 3; $page++) {
             $response = Http::get("{$this->apiRef}/movie/upcoming?api_key={$this->apiKey}&page={$page}&language=pt-BR");
             if($page == 3) {
+                #retira 10 filmes da ultima página 
                 array_push($lista, array_slice($response->json()['results'],0,12,true));
             } else {
                 array_push($lista, array_slice($response->json()['results'],0,19,true));
             } 
         }
-        session(['pages' => $lista]);
+        #Retira uma dimensão da matriz
+        $lista = array_merge($lista[0], $lista[1], $lista[2]);
         return $lista;
     }
 
@@ -75,17 +74,6 @@ class moviesController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
      * Display the specified resource.
      *
      * @param  int  $id
@@ -93,18 +81,41 @@ class moviesController extends Controller
      */
     public function show($id)
     {
-        return view('show', [ 'filme' => $this->getMovie($id) ]);
+        return view('show', [ 
+            'filme' =>  $this->getGenero($this->getMovie($id)),
+            'favoritos' => 'Add aos Favoritos'
+        ]);
+    }
+    public function getGenero($movie) {
+        $genres = $this->requestGenres();
+        foreach($movie['genre_ids'] as $key => $ids) {
+            foreach($genres['genres'] as $genre) {
+                if($ids == $genre['id']) {
+                    $movie['genre_ids'][$key] = $genre['name'];
+                }
+            }
+        }
+        return $movie;
+    }
+
+    public function requestImdbId($id) {
+        $response = Http::get("{$this->apiRef}/movie/{$id}/external_ids?api_key={$this->apiKey}");
+        $ids = $response->json();
+        return $ids['imdb_id'];
+    }
+
+    public function requestMovieInformations($imdbId) {
+        $response = Http::get("{$this->apiRef}/find/{$imdbId}?api_key={$this->apiKey}&language=pt-BR&external_source=imdb_id");
     }
 
     public function getMovie($id) {
+        $imdbId = $this->requestImdbId($id);
         $lista = session('pages');
         if(isset($lista[0])) {
-            foreach($lista as $page) {
-                foreach($page as $movie) {
-                    if($movie['id'] == $id) {
-                        $informations = $movie;
-                        break;
-                    }
+            foreach($lista as $movie) {
+                if($movie['id'] == $id) {
+                    $informations = $movie;
+                    break;
                 }
             }
         } else {
@@ -130,37 +141,8 @@ class moviesController extends Controller
         ]);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
+    public function favoritos() {
+        return view('favoritos');
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
-    }
 }
