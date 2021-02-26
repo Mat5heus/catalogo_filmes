@@ -19,7 +19,8 @@ use Illuminate\Support\Facades\Route;
 // });
 
 Route::resource('/', moviesController::class);
-Route::any('/search', [moviesController::class, 'search'])->name('catalogo.search');
+Route::any('/search', [moviesController::class, 'search'])->name('search');
 Route::resource('/catalogo', moviesController::class)->only(
     'show'
 );
+Route::get('/favoritos', [moviesController::class, 'favoritos'])->name('favoritos');
