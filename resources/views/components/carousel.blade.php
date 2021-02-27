@@ -1,4 +1,4 @@
-<div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel" style="margin-left:12.5%;width: 70%; max-height:450px">
+<div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel" :style="carouselStyle">
     <div class="carousel-indicators">
       <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
       @foreach ($filmesSorteados as $key => $filme)
@@ -10,8 +10,7 @@
         <img 
           src="https://image.tmdb.org/t/p/w500{{ $lista[$filmePrincipal]['backdrop_path'] ?? '' }}" 
           v-on:click="redirect({{ $lista[$filmePrincipal]['id'] ?? '' }})" 
-          class="d-block w-100" 
-          style="max-height:450px;">
+          class="d-block w-100">
         <div class="carousel-caption d-none d-md-block">
           <h5>{{ $lista[$filmePrincipal]['title'] ?? '' }}</h5>
           <p>{{ mb_strimwidth($lista[$filmePrincipal]['overview'],0,200,'...')  ?? '' }}</p>
@@ -22,8 +21,7 @@
           <img 
             src="https://image.tmdb.org/t/p/w500{{ $lista[$filme]['backdrop_path'] ?? '' }}" 
             v-on:click="redirect({{ $lista[$filme]['id'] ?? '' }})"
-            class="d-block w-100" 
-            style="max-height:450px;">
+            class="d-block w-100">
           <div class="carousel-caption d-none d-md-block">
             <h5>{{ $lista[$filme]['title'] ?? '' }}</h5>
             <p>{{ mb_strimwidth($lista[$filme]['overview'],0,200,'...')  ?? '' }}</p>
