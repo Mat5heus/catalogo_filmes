@@ -2,7 +2,7 @@
     let addFavoritos = new Vue({
         el: "#AddFavoritos",
         data: {
-          addMenssage: 'Add aos Favoritos',
+          addMessage: 'Add aos Favoritos',
           removeMessage: 'Remover dos Favoritos',
           favoritosMessage: null,
           arrayKey: null,
@@ -30,7 +30,7 @@
                 this.arrayKey = this.movieExists();
                 this.favoritosMessage = this.removeMessage;
               } else {
-                this.favoritosMessage = this.addMenssage;
+                this.favoritosMessage = this.addMessage;
               }
             } catch(e) {
               console.error(e);
@@ -43,7 +43,7 @@
             if(this.arrayKey != null) {
               this.removeMovie();
               this.arrayKey = null;
-              this.favoritosMessage = this.addMenssage;
+              this.favoritosMessage = this.addMessage;
             } else {
               this.addMovie();
               this.arrayKey = this.movieExists();
