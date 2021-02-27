@@ -20,19 +20,28 @@ class moviesController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($page = 1)
     {   
-        $lista = $this->arraySort($this->requestPage());
+        if ($page % 2 == 0) {
+            $page++;
+        }
+        $lista = $this->sortByDate($this->requestUpcommingPages($page));
 
-        #Salva os dados para consulta posterior
-        session(['pages' => $lista]);
+        $sorteio = array();
+        for($ctd = 1; $ctd <= 5; $ctd++) {
+            array_push($sorteio,rand(0,count($lista)-1));
+        }
 
         return view('index', [
-             'lista' => $lista
+             'lista' => $lista,
+             'filmePrincipal' => array_pop($sorteio),
+             'filmesSorteados' => $sorteio,
+             'home' => 'active',
+             'page' => $page
         ]);
     }
 
-    Protected function arraySort($lista) {
+    Protected function sortByDate($lista) {
         usort($lista, function ($element1, $element2) { 
             $datetime1 = strtotime($element1['release_date']); 
             $datetime2 = strtotime($element2['release_date']); 
@@ -46,12 +55,13 @@ class moviesController extends Controller
         return $response->json();
     }
 
-    protected function requestPage()
+    protected function requestUpcommingPages($page)
     {   
         $lista = array();
-        for($page = 1; $page <= 3; $page++) {
+        $paginaAtual = $page;
+        for($page; $page <= $paginaAtual+2; $page++) {
             $response = Http::get("{$this->apiRef}/movie/upcoming?api_key={$this->apiKey}&page={$page}&language=pt-BR");
-            if($page == 3) {
+            if($page == $paginaAtual+2) {
                 #retira 10 filmes da ultima página 
                 array_push($lista, array_slice($response->json()['results'],0,12,true));
             } else {
@@ -60,17 +70,8 @@ class moviesController extends Controller
         }
         #Retira uma dimensão da matriz
         $lista = array_merge($lista[0], $lista[1], $lista[2]);
-        return $lista;
-    }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        return view('show');
+        return $lista;
     }
 
     /**
@@ -82,11 +83,11 @@ class moviesController extends Controller
     public function show($id)
     {
         return view('show', [ 
-            'filme' =>  $this->getGenero($this->getMovie($id)),
-            'favoritos' => 'Add aos Favoritos'
+            'filme' =>  $this->getGenreName($this->getMovie($id))
         ]);
     }
-    public function getGenero($movie) {
+
+    protected function getGenreName($movie) {
         $genres = $this->requestGenres();
         foreach($movie['genre_ids'] as $key => $ids) {
             foreach($genres['genres'] as $genre) {
@@ -98,51 +99,41 @@ class moviesController extends Controller
         return $movie;
     }
 
-    public function requestImdbId($id) {
+    protected function requestImdbId($id) {
         $response = Http::get("{$this->apiRef}/movie/{$id}/external_ids?api_key={$this->apiKey}");
         $ids = $response->json();
         return $ids['imdb_id'];
     }
 
-    public function requestMovieInformations($imdbId) {
+    protected function requestMovieInformations($imdbId) {
         $response = Http::get("{$this->apiRef}/find/{$imdbId}?api_key={$this->apiKey}&language=pt-BR&external_source=imdb_id");
+        return $response->json();
     }
 
-    public function getMovie($id) {
+    protected function getMovie($id) {
         $imdbId = $this->requestImdbId($id);
-        $lista = session('pages');
-        if(isset($lista[0])) {
-            foreach($lista as $movie) {
-                if($movie['id'] == $id) {
-                    $informations = $movie;
-                    break;
-                }
-            }
-        } else {
-            foreach($lista['results'] as $movie) {
-                if($movie['id'] == $id) {
-                    $informations = $movie;
-                    break;
-                }
-            }
-        }
-        return $informations;
+        $movie = $this->requestMovieInformations($imdbId);
+
+        return $movie['movie_results'][0];
     }
 
     public function search(Request $request) {
+
         $query = $request->input('search');
         $page = 1;
         $include_adult = false;
         $response = Http::get("{$this->apiRef}/search/movie?api_key={$this->apiKey}&query={$query}&page={$page}&include_adult={$include_adult}&language=pt-BR");
-        session(['pages' => $response->json()]);
+    
         return view('search', [
             'result' => $response->json(),
             'query' => $query
         ]);
     }
 
-    public function favoritos() {
-        return view('favoritos');
+    public function favorites() {
+        return view('favoritos', [
+            'favoritos' => 'active'
+        ]);
     }
 
 }
