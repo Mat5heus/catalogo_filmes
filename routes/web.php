@@ -14,13 +14,12 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-// Route::get('/', function () {
-//     return view('welcome');
-// });
-
-Route::resource('/', moviesController::class);
+Route::get('/home/{page?}', [moviesController::class, 'index'])->name('index');
+Route::get('/', function() {
+    return redirect()->route('index');
+});
 Route::any('/search', [moviesController::class, 'search'])->name('search');
-Route::resource('/catalogo', moviesController::class)->only(
-    'show'
-);
-Route::get('/favoritos', [moviesController::class, 'favoritos'])->name('favoritos');
+
+Route::get('/show/{id}', [moviesController::class, 'show'])->name('show');
+
+Route::get('/favorites', [moviesController::class, 'favorites'])->name('favorites');
