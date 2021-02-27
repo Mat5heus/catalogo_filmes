@@ -8,16 +8,20 @@
                 float:'left', 
                 marginLeft: '5px'
             },
-            // containerStyle: {
-            //     textAlign: 'center',
-            //     marginLeft: '8%'
-            // },
+            containerStyle: {
+                paddingLeft: '5%',
+                paddingRight: '5%'                
+            },
             titleStyle: {
                 textAlign: 'center'
             },
-            carouselStyle: {
+            carouselContainerStyle: {
                 display: 'flex',
-                marginLeft: '0px'
+                height: '500px'
+            },
+            carouselStyle:{
+                marginLeft:'15%',
+                width: '70%'
             }
         },
         methods: {
