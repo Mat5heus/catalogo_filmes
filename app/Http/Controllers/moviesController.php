@@ -22,24 +22,36 @@ class moviesController extends Controller
      */
     public function index($page = 1)
     {   
-        if ($page % 2 == 0) {
-            $page++;
-        }
-        $lista = $this->sortByDate($this->requestUpcommingPages($page));
+        $page = $this->pularPaginaPar($page);
+        $lista = $this->requestUpcommingPages($page);
+        $sorteio = $this->sortearFilmeCarrosel(5, $lista);
 
+        return view('index', [
+             'lista' => $this->sortByDate($lista),
+             'filmePrincipal' => array_pop($sorteio),
+             'filmesSorteados' => $sorteio,
+             'home' => 'active',
+             'currentPageNumber' => $page,
+             'currentPageName' => 'index',
+             'total_pages' => $lista[0]['total_pages']
+        ]);
+    }
+
+    public function sortearFilmeCarrosel($quant, $lista) {
+        //sorteio
         $sorteio = array();
         for($ctd = 1; $ctd <= 5; $ctd++) {
             array_push($sorteio,rand(0,count($lista)-1));
         }
-
-        return view('index', [
-             'lista' => $lista,
-             'filmePrincipal' => array_pop($sorteio),
-             'filmesSorteados' => $sorteio,
-             'home' => 'active',
-             'page' => $page
-        ]);
+        return $sorteio;
     }
+
+    public function pularPaginaPar($page) {
+        //pagina impar
+        if ($page % 2 == 0) {
+            return $page++;
+        }
+    } 
 
     Protected function sortByDate($lista) {
         usort($lista, function ($element1, $element2) { 
@@ -70,6 +82,8 @@ class moviesController extends Controller
         }
         #Retira uma dimensão da matriz
         $lista = array_merge($lista[0], $lista[1], $lista[2]);
+        $lista[0]["total_pages"] = $response->json()["total_pages"];
+        $lista[0]["total_results"] = $response->json()["total_results"];
 
         return $lista;
     }
@@ -117,16 +131,18 @@ class moviesController extends Controller
         return $movie['movie_results'][0];
     }
 
-    public function search(Request $request) {
+    public function search(Request $request,$page = 1) {
 
-        $query = $request->input('search');
-        $page = 1;
+        $query = $request->input('query');
         $include_adult = false;
         $response = Http::get("{$this->apiRef}/search/movie?api_key={$this->apiKey}&query={$query}&page={$page}&include_adult={$include_adult}&language=pt-BR");
-    
+        
         return view('search', [
             'result' => $response->json(),
-            'query' => $query
+            'query' => $query,
+            'currentPageNumber' => $page,
+            'total_pages' => $response->json()['total_pages'],
+            'currentPageName' => 'search'
         ]);
     }
 
@@ -135,5 +151,4 @@ class moviesController extends Controller
             'favoritos' => 'active'
         ]);
     }
-
 }
