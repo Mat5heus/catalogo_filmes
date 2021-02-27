@@ -7,16 +7,16 @@
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
           <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="{{ route('index') }}">Home</a>
+            <a class="nav-link {{ $home ?? '' }}" aria-current="page" href="{{ route('index') }}">Home</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="{{ route('favoritos') }}">Favoritos</a>
+            <a class="nav-link {{ $favoritos ?? ''}}" href="{{ route('favorites') }}">Favoritos</a>
           </li>
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
               Gêneros
             </a>
-            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <ul class="dropdown-menu disabled" aria-labelledby="navbarDropdown">
               <li><a class="dropdown-item" href="#">Ação</a></li>
               <li><a class="dropdown-item" href="#">Aventura</a></li>
               <li><a class="dropdown-item" href="#">Terror</a></li>
@@ -25,7 +25,7 @@
             </ul> 
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#" id="AddFavoritos" @click="exec" v-html="favoritosMessage" tabindex="-1" aria-disabled="true"></a>
+            <a class="nav-link" href="#" id="AddFavoritos" v-on:click="exec" v-html="favoritosMessage" tabindex="-1"></a>
           </li>
         </ul>
         <form class="d-flex" method="GET" action="{{ route('search') }}">
