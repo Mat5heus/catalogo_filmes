@@ -18,7 +18,7 @@ Route::get('/home/{page?}', [moviesController::class, 'index'])->name('index');
 Route::get('/', function() {
     return redirect()->route('index');
 });
-Route::any('/search', [moviesController::class, 'search'])->name('search');
+Route::any('/{page}/search', [moviesController::class, 'search'])->name('search');
 
 Route::get('/show/{id}', [moviesController::class, 'show'])->name('show');
 
