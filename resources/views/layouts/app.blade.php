@@ -6,6 +6,35 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>@yield('title') - Catálogo filmes</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+    <style>
+        #overview{
+            overflow-x: auto;
+        }
+        :root{
+            --border-radius: 20px;
+        }
+        /* width */
+        ::-webkit-scrollbar {
+            width: 9px;
+        }
+
+        /* Track */
+        ::-webkit-scrollbar-track {
+            background: rgba(226, 223, 223, 0.1); 
+        }
+        
+        /* Handle */
+        ::-webkit-scrollbar-thumb {
+            background: rgba(72, 83, 94, 0.6); 
+            border-radius: var(--border-radius);
+        }
+
+        /* Handle on hover */
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgb(30, 31, 32); 
+            border-radius: var(--border-radius);
+        }
+    </style>
 </head>
 <body>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.6.0/dist/umd/popper.min.js" integrity="sha384-KsvD1yqQ1/1+IA7gi3P0tyJcT3vR+NdBTt13hSJ2lnve8agRGXTTyNaBYmCR/Nwi" crossorigin="anonymous"></script>
