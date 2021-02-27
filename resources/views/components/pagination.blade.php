@@ -1,14 +1,13 @@
-<nav aria-label="Page navigation example" style="">
+<nav aria-label="Page navigation example" style="{{ (($result['total_results'] ?? '') == 0) ? 'visibility:hidden': '' }}">
     <ul class="pagination justify-content-center">
-      <li class="page-item ">
-        <a class="page-link" href="{{ route('index',$page-1) ?? '' }}" tabindex="-1" >Anterior</a>
+      <li class="page-item {{ ($currentPageNumber <= 1) ? 'disabled' : '' }}">
+        <a class="page-link" href="{{ route($currentPageName,$currentPageNumber-3) }}" tabindex="-1" >Anterior</a>
       </li>
-      <li class="page-item"><a class="page-link" href="{{ route('index', 1) }}">{{ 1 }}</a></li>
-      <li class="page-item"><a class="page-link" href="{{ route('index', 3) }}">{{ 2 }}</a></li>
-      <li class="page-item"><a class="page-link" href="{{ route('index', 5) }}">{{ 3 }}</a></li>
-      <li class="page-item"><a class="page-link" href="{{ route('index', 7) }}">{{ 4 }}</a></li>
-      <li class="page-item">
-        <a class="page-link" href="{{ route('index',$page+1) ?? '' }}">Próxima</a>
+      <li class="page-item {{ ($currentPageNumber >= $total_pages) ? 'disabled' : '' }}">
+        <a class="page-link" 
+          href="
+            {{ route($currentPageName,$currentPageNumber+1) }}{{ ($currentPageName == 'search') ? '?query='.urlencode($query) : '' }}
+          ">Próxima</a>
       </li>
     </ul>
   </nav>
