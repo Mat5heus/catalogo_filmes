@@ -10,18 +10,6 @@
             background-size: cover;
             background-repeat: no-repeat;
         } 
-        #overview{
-            overflow-x: auto;
-        }
-        :root{
-            --border-radius: 20px;
-        }
-        /* width */
-        ::-webkit-scrollbar {
-            width: 9px;
-        }
-
-        /* Track */
         ::-webkit-scrollbar-track {
             background: rgb(226, 223, 223, 0.1); 
         }
@@ -34,7 +22,6 @@
         /* Handle on hover */
         ::-webkit-scrollbar-thumb:hover {
             background: rgb(73, 167, 243); 
-            border-radius: var(--border-radius);
         }
     </style>
   
