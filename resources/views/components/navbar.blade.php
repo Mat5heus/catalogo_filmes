@@ -21,15 +21,15 @@
               <li><a class="dropdown-item" href="#">Aventura</a></li>
               <li><a class="dropdown-item" href="#">Terror</a></li>
               <li><hr class="dropdown-divider"></li>
-              <li><a class="dropdown-item" href="#">Something else here</a></li>
+              <li><a class="dropdown-item" href="#">(Still not working)</a></li>
             </ul> 
           </li>
           <li class="nav-item">
             <a class="nav-link" href="#" id="AddFavoritos" v-on:click="exec" v-html="favoritosMessage" tabindex="-1"></a>
           </li>
         </ul>
-        <form class="d-flex" method="GET" action="{{ route('search') }}">
-          <input class="form-control me-2" value="{{ $query ?? ''}}" name="search" type="search" placeholder="Search" aria-label="Search">
+        <form class="d-flex" method="GET" action="{{ route('search',1) }}">
+          <input class="form-control me-2" value="{{ $query ?? ''}}" name="query" type="search" placeholder="Search" aria-label="Search">
           <button class="btn btn-success" type="submit">Search</button>
         </form>
       </div>
