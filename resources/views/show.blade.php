@@ -9,7 +9,10 @@
             background-color: #1d1c1c;
             background-size: cover;
             background-repeat: no-repeat;
-        } 
+        }
+        #overview {
+            overflow-y: auto;
+        }
         ::-webkit-scrollbar-track {
             background: rgb(226, 223, 223, 0.1); 
         }
@@ -63,7 +66,7 @@
                     maxHeight:  (window.innerHeight / 5)+"px"
                 },
                 additional: {
-                    paddingRight: 20+'px'
+                    paddingRight: '20px'
                 }
             }
         })
@@ -83,10 +86,9 @@
             data: {
                 marcaStyle: {
                     position: 'absolute',
-                    opacity: '0.4',
-                    color: 'rgb(220,220,220)',
+                    color: 'rgb(220,220,220,0.4)',
                     bottom: 0,
-                    right: 2+'px'
+                    right: '2px'
                 }
             }
         })
