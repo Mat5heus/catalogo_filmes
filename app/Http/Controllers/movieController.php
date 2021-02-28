@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 
-class moviesController extends Controller
+class movieController extends Controller
 {   
     protected $apiKey;
     public $apiRef;
@@ -47,10 +47,11 @@ class moviesController extends Controller
     }
 
     public function pularPaginaPar($page) {
-        //pagina impar
+        //Se for par soma mais 1
         if ($page % 2 == 0) {
             return $page++;
         }
+        return $page;
     } 
 
     Protected function sortByDate($lista) {
@@ -70,17 +71,17 @@ class moviesController extends Controller
     protected function requestUpcommingPages($page)
     {   
         $lista = array();
-        $paginaAtual = $page;
-        for($page; $page <= $paginaAtual+2; $page++) {
+        $currentPage = $page;
+        for($page; $page <= $currentPage+2; $page++) {
             $response = Http::get("{$this->apiRef}/movie/upcoming?api_key={$this->apiKey}&page={$page}&language=pt-BR");
-            if($page == $paginaAtual+2) {
-                #retira 10 filmes da ultima página 
+            if($page == $currentPage+2) {
+                //retira 10 filmes da ultima página 
                 array_push($lista, array_slice($response->json()['results'],0,12,true));
             } else {
                 array_push($lista, array_slice($response->json()['results'],0,19,true));
             } 
         }
-        #Retira uma dimensão da matriz
+        //Retira uma dimensão da matriz
         $lista = array_merge($lista[0], $lista[1], $lista[2]);
         $lista[0]["total_pages"] = $response->json()["total_pages"];
         $lista[0]["total_results"] = $response->json()["total_results"];
@@ -97,7 +98,8 @@ class moviesController extends Controller
     public function show($id)
     {
         return view('show', [ 
-            'filme' =>  $this->getGenreName($this->getMovie($id))
+            'filme' =>  $this->getGenreName($this->getMovie($id)),
+            'show' => ''
         ]);
     }
 
@@ -136,7 +138,7 @@ class moviesController extends Controller
         $query = $request->input('query');
         $include_adult = false;
         $response = Http::get("{$this->apiRef}/search/movie?api_key={$this->apiKey}&query={$query}&page={$page}&include_adult={$include_adult}&language=pt-BR");
-        
+    
         return view('search', [
             'result' => $response->json(),
             'query' => $query,
