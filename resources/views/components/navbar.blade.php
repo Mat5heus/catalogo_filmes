@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+<nav class="navbar {{ $show ?? 'fixed-top' }} navbar-expand-lg navbar-dark bg-primary">
     <div class="container-fluid">
       <a class="navbar-brand" href="{{ route('index') }}">Catálogo Filmes</a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -25,7 +25,7 @@
             </ul> 
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#" id="AddFavoritos" v-on:click="exec" v-html="favoritosMessage" tabindex="-1"></a>
+            <a class="nav-link" href="#" id="AddFavoritos" v-on:click="exec" v-html="currentMessage" tabindex="-1"></a>
           </li>
         </ul>
         <form class="d-flex" method="GET" action="{{ route('search',1) }}">
