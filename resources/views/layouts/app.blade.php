@@ -18,6 +18,7 @@
         /* Track */
         ::-webkit-scrollbar-track {
             background: rgba(226, 223, 223, 0.1); 
+            border-radius: var(--border-radius);
         }
         
         /* Handle */
