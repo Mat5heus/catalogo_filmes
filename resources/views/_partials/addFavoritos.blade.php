@@ -4,7 +4,7 @@
         data: {
           addMessage: 'Add aos Favoritos',
           removeMessage: 'Remover dos Favoritos',
-          favoritosMessage: null,
+          currentMessage: null,
           arrayKey: null,
           page: [],
           dados: {
@@ -26,11 +26,11 @@
           if (localStorage.getItem(this.jsonName)) {
             try {
               this.page = JSON.parse(localStorage.getItem(this.jsonName));
-              if(this.movieExists() != null) {
-                this.arrayKey = this.movieExists();
-                this.favoritosMessage = this.removeMessage;
+              this.arrayKey = this.movieExists();
+              if(this.arrayKey != null) {
+                this.currentMessage = this.removeMessage;
               } else {
-                this.favoritosMessage = this.addMessage;
+                this.currentMessage = this.addMessage;
               }
             } catch(e) {
               console.error(e);
@@ -43,11 +43,11 @@
             if(this.arrayKey != null) {
               this.removeMovie();
               this.arrayKey = null;
-              this.favoritosMessage = this.addMessage;
+              this.currentMessage = this.addMessage;
             } else {
               this.addMovie();
               this.arrayKey = this.movieExists();
-              this.favoritosMessage = this.removeMessage;
+              this.currentMessage = this.removeMessage;
             }
           },
           addMovie() {
