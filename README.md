@@ -14,6 +14,12 @@
 <ul>
     <li>git clone https://github.com/Mat5heus/catalogo_filmes.git</li>
     <li>cd ./catalogo_filmes</li>
+     <li>git checkout development</li>
+    <li>Altere o nome do arquivo ".env.example" para ".env"</li>
+    <li>Dentro do arquivo ".env" digite "API_KEY="(sem aspas)</li>
+    <li>Na frente de "API_KEY=" cole a sua chave do TMDB</li>
+    <li>Volte ao terminal e digite: composer install</li>
+    <li>php artisan key:generate</li>
     <li>php artisan serve</li>
     <li>Acesse localhost:8000 pelo navegador</li>
 </ul>
