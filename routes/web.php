@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\moviesController;
+use App\Http\Controllers\movieController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,12 +14,14 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/home/{page?}', [moviesController::class, 'index'])->name('index');
 Route::get('/', function() {
     return redirect()->route('index');
 });
-Route::any('/{page}/search', [moviesController::class, 'search'])->name('search');
 
-Route::get('/show/{id}', [moviesController::class, 'show'])->name('show');
+Route::get('/home/{page?}', [movieController::class, 'index'])->name('index');
 
-Route::get('/favorites', [moviesController::class, 'favorites'])->name('favorites');
+Route::get('/{page}/search', [movieController::class, 'search'])->name('search');
+
+Route::get('/show/{id}', [movieController::class, 'show'])->name('show');
+
+Route::get('/favorites', [movieController::class, 'favorites'])->name('favorites');
