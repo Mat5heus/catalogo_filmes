@@ -9,7 +9,7 @@
 
 ## About The Project
 
-# Para abrir o projeto digite estes comandos pelo terminal:
+### Para abrir o projeto digite estes comandos pelo terminal:
 
 <ul>
     <li>git clone https://github.com/Mat5heus/catalogo_filmes.git</li>
@@ -19,7 +19,7 @@
 </ul>
 
 
-# Livarias utilizadas:
+### Livarias utilizadas:
 
 <ul>
     <li><h5>Guzzle 7.0</h5>
