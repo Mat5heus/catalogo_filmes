@@ -29,7 +29,7 @@
         <p>Bootstrap ajudou estruturar e reduzir a quantidade de código na montagem do layout</p>
     </li>
     <li><h5>Vue 2.6</h5>
-        <p>Vue foi essencial principalmente na página favoritos onde quase todo código roda no client-side, ele preenche a página com as informação salvas, além de direcionar todas as thumbs do projeto também ajuda a orientar os estilos CSS</p>
+        <p>Vue foi essencial principalmente na página favoritos onde quase todo código roda no client-side, ele preenche a página com as informação salvas, além de direcionar todas as thumbs do projeto, também ajuda a orientar os estilos CSS</p>
     </li>
 </ul>
 
