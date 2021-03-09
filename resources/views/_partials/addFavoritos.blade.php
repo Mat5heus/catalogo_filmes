@@ -34,8 +34,9 @@
               }
             } catch(e) {
               console.error(e);
-              localStorage.removeItem(this.jsonName);
             }
+          } else {
+            this.currentMessage = this.addMessage;
           }
         },
         methods: {
