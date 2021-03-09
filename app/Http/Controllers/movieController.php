@@ -118,7 +118,11 @@ class movieController extends Controller
     protected function requestImdbId($id) {
         $response = Http::get("{$this->apiRef}/movie/{$id}/external_ids?api_key={$this->apiKey}");
         $ids = $response->json();
-        return $ids['imdb_id'];
+        if(isset($ids['imdb_id'])) {
+            return $ids['imdb_id'];
+        } else {
+            abort(404);
+        }
     }
 
     protected function requestMovieInformations($imdbId) {
@@ -130,7 +134,11 @@ class movieController extends Controller
         $imdbId = $this->requestImdbId($id);
         $movie = $this->requestMovieInformations($imdbId);
 
-        return $movie['movie_results'][0];
+        if(isset($movie['movie_results'][0])) {
+            return $movie['movie_results'][0];
+        } else {
+            abort(404);
+        }
     }
 
     public function search(Request $request,$page = 1) {
